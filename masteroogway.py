@@ -11,7 +11,7 @@ intents = discord.Intents.default()
 intents = True
 client = discord.Client(intents = intents)
 
-
+# if errors occur, this function will print them out into a file called "masteroogwayerr.log"
 handler = logging.FileHandler(filename="masteroogwayerr.log", encoding="utf-8", mode="w")
 
 # chatbot events
