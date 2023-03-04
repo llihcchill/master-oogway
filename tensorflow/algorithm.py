@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy
 import importlib
 
 # import the Tensorflow algorithm into the main script
@@ -23,12 +24,3 @@ class masteroogwayAdviceModel(tf.keras.Model):
     def __init__(self) -> None:
         super(masteroogwayAdviceModel).__init__()
         # model parameters
-
-# might just feed the master oogway quotes into the main algorithm rather than make a seperate one
-'''
-# language processing model that will be trained on Master Oogway quotes
-class masteroogwayModel(tf.keras.Model):
-    def __init__(self) -> None:
-        super(masteroogwayModel).__init__()
-        # model parameters
-'''
