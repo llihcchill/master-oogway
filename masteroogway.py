@@ -1,10 +1,10 @@
 import importlib
 import discord
 import logging
+import algorithm
 
-# import the Tensorflow algorithm into the main script
-algorithm = input('algorithm')
-importlib.import_module(algorithm)
+# initialise question variable
+question = ""
 
 # add discord intents and instantiate the discord client
 intents = discord.Intents.default()
@@ -25,11 +25,8 @@ async def on_message(self, message):
         return
 
     if message.content.startsWith("?"):
+        question = message.content
         # get stuff from the tensorflow algorithm
-        print("you know what")
-
-
-
 
 # runs the bot
 client.run("token here", log_handler = handler, log_level = logging.DEBUG)
