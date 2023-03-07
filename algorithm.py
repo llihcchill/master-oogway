@@ -31,9 +31,6 @@ for words in stop_words:
 # stem and lemmonise the words to get them prepared for model building
 
 
-
-
-
 # use dictionary to get only the nouns, verbs, and adjectives (ready to feed into algorithm)
 
 
