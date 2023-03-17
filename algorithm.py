@@ -1,4 +1,4 @@
-import masteroogway
+from masteroogway import question
 import tensorflow as tf
 from tensorflow.python.keras.layers import Embedding, Dense, LSTM
 from tensorflow.python.keras.models import Sequencial
@@ -7,16 +7,12 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-
-# advice quotes api to feed into the machine learning algorithm
-
-
-# get question input
-main_question = masteroogway.question
+from nltk.stem.wordnet import WordNetLemmatizer
+import requests
 
 # tokenise question into its words
-text = f"""{main_question}"""
-tokenised_text = word_tokenize(text)
+text = f"""{question}"""
+tok = tokenised_text = word_tokenize(text)
 
 # filter the question into its key words
 filtered_sentence = []
@@ -31,8 +27,15 @@ stemmed_words = []
 for word in filtered_sentence:
     stemmed_words.append(ps.stem(word))
 
-# use dictionary to get only the nouns, verbs, and adjectives (ready to feed into algorithm)
+# lemmonise stemmed words
+lem = WordNetLemmatizer()
+lemmonised_words = []
+for word in stemmed_words:
+    lemmonised_words.append(lem.lemmatize(word))
 
+# advice quotes api to feed into the machine learning algorithm
+# the api that will be used is the ZenQuotes api here: https://zenquotes.io/
+api_call = requests.get("https://zenquotes.io/api/quotes")
 
 # model that will be trained on advice quotes api
 class masteroogwayAdviceModel(tf.keras.Model):
