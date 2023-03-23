@@ -1,3 +1,8 @@
+from api import *
+import tensorflow as tf
+from tensorflow.python.keras.layers import Embedding, Dense, LSTM
+from tensorflow.python.keras.models import Sequencial
+from tensorflow.python.keras.losses import MeanSquaredError
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -5,7 +10,7 @@ from nltk.stem import PorterStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
 import requests
 
-
+# prepare the sentence for comparison
 def prepare_sentence(sentence_array, stemmed_words_array, lemmonised_words_array):
     # tokenise question into its words
     text = f"""{sentence_array}"""
@@ -38,10 +43,10 @@ def run_algorithm(question, final_quote):
 
     # define the arrays for stemming and lemmonising the quote, along with a variable to check whether
     # it should continue to look for a quote that fits in well
-    stemmed_quote = [], lemmonised_quote = [], final_quote = [], continue_looking = True
+    stemmed_quote = [], lemmonised_quote = [], final_quotes = [], num_of_quotes = 0
 
-    # while loop to interate finding the best quote to send
-    while continue_looking == True:
+    # while loop to interate finding 50 quotes that have words included in the question
+    while num_of_quotes != 50:
         # advice quotes api to feed into the machine learning algorithm
         # the api that will be used is the ZenQuotes api here: https://zenquotes.io/
         api_call = requests.get("https://zenquotes.io/api/quotes")
@@ -56,8 +61,16 @@ def run_algorithm(question, final_quote):
             prepare_sentence(single_quote, stemmed_quote, lemmonised_quote)
 
             if(lemmonised_quote.__contains__(lemmonised_question) == True):
-                final_quote.append(lemmonised_quote)
-                continue_looking = False
+                final_quotes.append(lemmonised_quote)
+                num_of_quotes = num_of_quotes + 1
                 break
             else:
                 return
+
+    # model that will be trained on advice quotes api
+    class masteroogwayAdviceModel(tf.keras.Model):
+        def __init__(self) -> None:
+            super(masteroogwayAdviceModel).__init__()
+            # model parameters
+            # for quote in final_quotes:
+            #   do something
