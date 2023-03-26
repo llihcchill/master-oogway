@@ -1,5 +1,6 @@
 import discord
 import logging
+from algorithm import run_algorithm
 
 # add discord intents and instantiate the discord client
 intents = discord.Intents.default()
@@ -20,8 +21,12 @@ async def on_message(self, message):
         return
 
     if message.content.startsWith("?"):
+        # initialise question and array to store the quote
         question = message.content
-        # output quote
+        quote = []
+        run_algorithm(question, quote)
+
+        # send a message for the quote in italic (make it look good as well)
 
 # runs the bot
 client.run("token here", log_handler = handler, log_level = logging.DEBUG)
