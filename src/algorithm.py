@@ -1,15 +1,20 @@
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
+from nltk.parse import RegexpParser
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
 import requests
 
 # prepare the sentence for comparison
-def prepare_sentence(sentence_array, tagged_words):
+def prepare_sentence(sentence_array, nouns_and_verbs):
+    # split sentence into individual words first
+    split_sentence = sentence_array.split()
+
     # tokenise question into its words
-    text = f"""{sentence_array}"""
+    text = f"""{split_sentence}"""
+    print(text)
     tokenised_sentence = word_tokenize(text)
 
     # filter the question into its key words
@@ -21,6 +26,14 @@ def prepare_sentence(sentence_array, tagged_words):
     # use parts-of-speech tagging to define what type of word it is
     tagged_words = nltk.pos_tag(tokenised_sentence)
 
+    # filters out everything but nouns and verbs
+    nouns_verbs_chunked = """chunky:{<NN.?>*<NNS.?>*<NNP.?>*<NNPS.?>*<VB.?>*<VBG.?>*<VBD.?>*<VBN>?}"""
+    chunker = RegexpParser(nouns_verbs_chunked)
+    output = chunker.parse(tagged_words)
+
+    # for every word, put into the nouns_and_verbs array
+    for word in output:
+        word.append(nouns_and_verbs)
 
 # function to run all the code
 def run_algorithm(question, final_quote):
@@ -51,6 +64,8 @@ def run_algorithm(question, final_quote):
 
             for word in final_single_quote:
                 if word in final_question:
+                    print(final_question)
+                    print(final_single_quote)
                     final_quote.append(final_single_quote)
                     continue_looking = False
                     break
