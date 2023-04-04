@@ -5,7 +5,7 @@ from algorithm import run_algorithm
 # add discord intents and instantiate the discord client
 intents = discord.Intents.default()
 client = discord.Client(intents = intents)
-
+quote = []
 # if errors occur, this function will print them out into a file called "masteroogwayerr.log"
 handler = logging.FileHandler(filename="masteroogwayerr.log", encoding="utf-8", mode="w")
 
@@ -24,13 +24,20 @@ async def on_message(self, message):
 
     if message.content.startsWith("?"):
         # initialise question and array to store the quote
-        question = message.content, quote = []
+        question = message.content
 
         # run run_algorithm function to find perfect quote
         run_algorithm(question, quote)
 
-        # send a message for the quote in italic (make it look good as well)
-        await message.channel.send(str(quote[0]))
+# turns the reply into an embed
+@client.command()
+async def embed(ctx):
+    # make an embed of the quote so it looks good
+    embed = discord.Embed(colour="2a9ead", title=f"Dear {ctx.author.display_name}", description=f"*{str(quote[0])}*")
+    embed.set_footer(text="*- Master Oogway*")
+
+    # sends the embedded quote to the channel
+    await ctx.send(embed=embed)
 
 # runs the bot
 client.run("token here", log_handler = handler, log_level = logging.DEBUG)
