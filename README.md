@@ -19,6 +19,6 @@ Now the algorithm should have an understanding of what it's trying to answer, so
 ```
 even more code that is yet to be written
 ```
-At this point, the algorithm will be trained using Gradient Descent to learn from itself and make new quotes from the ones it gets from the [ZenQuotes](https://zenquotes.io/api/quotes)
+At this point, the algorithm will be trained using Gradient Descent to learn from itself and make new quotes from the ones it gets from [ZenQuotes](https://zenquotes.io/api/quotes)
 ---------------------------------------------
 *picture of algorithm looking all cool*
